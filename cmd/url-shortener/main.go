@@ -33,19 +33,12 @@ func main() {
 		os.Exit(1)
 	}
 
-	id, err := storage.SaveURL("https://google.com", "google1")
+	err = storage.DeleteURL("0")
 	if err != nil {
-		log.Error("failed to save url", sl.Err(err))
+		log.Error("%s", err)
 		os.Exit(1)
 	}
-
-	log.Info("saved url", slog.Int64("id", id))
-
-	id, err = storage.SaveURL("https://google.com", "google1")
-	if err != nil {
-		log.Error("failed to save url", sl.Err(err))
-		os.Exit(1)
-	}
+	log.Info("%s", storage)
 
 	_ = storage
 
@@ -67,5 +60,3 @@ func setupLogger(env string) *slog.Logger {
 	}
 	return log
 }
-
-// Mermaid
