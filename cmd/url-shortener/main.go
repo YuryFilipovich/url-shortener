@@ -9,6 +9,10 @@ import (
 	"github.com/YuryFilipovich/url-shortener/internal/config"
 	"github.com/YuryFilipovich/url-shortener/internal/lib/logger/sl"
 	"github.com/YuryFilipovich/url-shortener/internal/storage/sqlite"
+
+	mwLogger "github.com/YuryFilipovich/url-shortener/internal/http-server/middleware/logger"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 const (
@@ -42,8 +46,12 @@ func main() {
 
 	_ = storage
 
-	// TODO init router: chi, "chi render"
+	router := chi.NewRouter()
 
+	router.Use(middleware.RequestID)
+	router.Use(middleware.Logger)
+	router.Use(middleware.RealIP)
+	router.Use(mwLogger.New(log))
 	// TODO: run server
 
 }
